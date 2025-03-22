@@ -1,0 +1,6 @@
+@Sistemapassagemaerea_HostAddress = http://localhost:5178
+
+GET {{Sistemapassagemaerea_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
