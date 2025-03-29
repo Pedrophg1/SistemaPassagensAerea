@@ -9,7 +9,7 @@
             public required string Endereco { get; set; }
             public DateTime? DataNascimento { get; set; }
 
-           
+     
             public Passageiro? Passageiro { get; set; }
         }
     

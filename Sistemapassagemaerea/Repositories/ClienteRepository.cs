@@ -13,7 +13,7 @@ namespace Sistemapassagemaerea.Repositories
             _context = context;
         }
 
-        public async Task<Cliente?> GetClienteByCpfAsync(string cpf)
+        public async Task<Cliente> GetClienteByCpfAsync(string cpf)
         {
             return await _context.Clientes
                                  .FirstOrDefaultAsync(c => c.CpfCliente == cpf);
