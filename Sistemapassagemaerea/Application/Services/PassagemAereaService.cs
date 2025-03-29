@@ -1,7 +1,8 @@
-﻿using Sistemapassagemaerea.Models;
-using Sistemapassagemaerea.Repositories;
+﻿using Sistemapassagemaerea.Application.Interfaces;
+using Sistemapassagemaerea.Domain.Interfaces;
+using Sistemapassagemaerea.Models;
 
-namespace Sistemapassagemaerea.Services
+namespace Sistemapassagemaerea.Application.Services
 {
     public class PassagemAereaService : IPassagemAereaService
     {

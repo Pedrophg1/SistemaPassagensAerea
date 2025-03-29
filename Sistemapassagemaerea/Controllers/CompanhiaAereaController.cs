@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sistemapassagemaerea.Models;
-using Sistemapassagemaerea.Services;
+using Sistemapassagemaerea.Application.DTOs;
+using Sistemapassagemaerea.Application.Interfaces;
 
 namespace Sistemapassagemaerea.Controllers
 {
@@ -18,41 +18,53 @@ namespace Sistemapassagemaerea.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCompanhias()
         {
-            var companhias = await _companhiaAereaService.GetAllCompanhiasAsync();
+            var companhias = await _companhiaAereaService.GetAllAsync();
+
             return Ok(companhias);
         }
 
-        [HttpGet("{codigo}")]
-        public async Task<IActionResult> GetCompanhia(string codigo)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCompanhia(int id)
         {
-            var companhia = await _companhiaAereaService.GetCompanhiaByCodigoAsync(codigo);
+            var companhia = await _companhiaAereaService.GetByIdAsync(id);
+            
             if (companhia == null)
                 return NotFound();
+
             return Ok(companhia);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCompanhia([FromBody] Companhia_Aerea companhia)
+        public async Task<IActionResult> AddCompanhia([FromBody] CadastrarCompanhiaAereaDto companhia)
         {
-            await _companhiaAereaService.AddCompanhiaAsync(companhia);
-            return CreatedAtAction(nameof(GetCompanhia), new { codigo = companhia.CodIATA }, companhia);
+            var response = await _companhiaAereaService.AddAsync(companhia);
+
+            return Ok(response);
         }
 
-        [HttpPut("{codigo}")]
-        public async Task<IActionResult> UpdateCompanhia(string codigo, [FromBody] Companhia_Aerea companhia)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateCompanhia(int id, [FromBody] CadastrarCompanhiaAereaDto companhia)
         {
-            var existingCompanhia = await _companhiaAereaService.GetCompanhiaByCodigoAsync(codigo);
+            var existingCompanhia = await _companhiaAereaService.GetByIdAsync(id);
+
             if (existingCompanhia == null)
                 return NotFound();
 
-            await _companhiaAereaService.UpdateCompanhiaAsync(companhia);
+            await _companhiaAereaService.Update(id, companhia);
+
             return NoContent();
         }
 
-        [HttpDelete("{codigo}")]
-        public async Task<IActionResult> DeleteCompanhia(string codigo)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCompanhia(int id)
         {
-            await _companhiaAereaService.DeleteCompanhiaAsync(codigo);
+            var existingCompanhia = await _companhiaAereaService.GetByIdAsync(id);
+
+            if (existingCompanhia == null)
+                return NotFound();
+
+            await _companhiaAereaService.DeleteAsync(id);
+
             return NoContent();
         }
     }

@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Sistemapassagemaerea.Application.Interfaces;
+using Sistemapassagemaerea.Application.Services;
 using Sistemapassagemaerea.Data;
-using Sistemapassagemaerea.Repositories;
-using Sistemapassagemaerea.Services;
+using Sistemapassagemaerea.Data.Repositories;
+using Sistemapassagemaerea.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +23,11 @@ builder.Services.AddScoped<IPassagemAereaService, PassagemAereaService>();
 
 builder.Services.AddControllers();
 
-// Configuração do Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

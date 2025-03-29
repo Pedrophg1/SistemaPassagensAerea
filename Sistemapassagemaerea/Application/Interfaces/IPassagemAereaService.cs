@@ -1,6 +1,6 @@
-﻿using Sistemapassagemaerea.Models;
+﻿using Sistemapassagemaerea.Domain;
 
-namespace Sistemapassagemaerea.Services
+namespace Sistemapassagemaerea.Application.Interfaces
 {
     public interface IPassagemAereaService
     {

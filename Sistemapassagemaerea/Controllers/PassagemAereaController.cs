@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sistemapassagemaerea.Models;
-using Sistemapassagemaerea.Services;
+using Sistemapassagemaerea.Application.Interfaces;
 
 namespace Sistemapassagemaerea.Controllers
 {

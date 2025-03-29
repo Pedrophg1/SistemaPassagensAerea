@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sistemapassagemaerea.Data;
-using Sistemapassagemaerea.Models;
+using Sistemapassagemaerea.Domain;
+using Sistemapassagemaerea.Domain.Interfaces;
 
-namespace Sistemapassagemaerea.Repositories
+namespace Sistemapassagemaerea.Data.Repositories
 {
     public class PassagemAereaRepository : IPassagemAereaRepository
     {
@@ -13,7 +13,7 @@ namespace Sistemapassagemaerea.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<PassagemAerea>> GetAllPassagensAsync()
+        public async Task<IEnumerable<PassagemAerea>> GetAllAsync()
         {
             return await _context.PassagensAereas
                                  .Include(pa => pa.Passageiro)
@@ -21,16 +21,16 @@ namespace Sistemapassagemaerea.Repositories
                                  .ToListAsync();
         }
 
-        public async Task AddPassagemAereaAsync(PassagemAerea passagemAerea)
+        public async Task AddAsync(PassagemAerea passagemAerea)
         {
             await _context.PassagensAereas.AddAsync(passagemAerea);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePassagemAereaAsync(string cpfPassageiro, string codigoCompanhiaAerea)
+        public async Task Delete(int id)
         {
             var passagemAerea = await _context.PassagensAereas
-                .FirstOrDefaultAsync(pa => pa.CpfPassageiro == cpfPassageiro && pa.CodIATA == codigoCompanhiaAerea);
+                .FirstOrDefaultAsync(pa => pa.Id == id);
 
             if (passagemAerea != null)
             {
