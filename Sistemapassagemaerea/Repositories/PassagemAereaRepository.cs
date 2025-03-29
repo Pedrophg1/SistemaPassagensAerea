@@ -30,7 +30,7 @@ namespace Sistemapassagemaerea.Repositories
         public async Task DeletePassagemAereaAsync(string cpfPassageiro, string codigoCompanhiaAerea)
         {
             var passagemAerea = await _context.PassagensAereas
-                .FirstOrDefaultAsync(pa => pa.CpfPassageiro == cpfPassageiro && pa.CodigoCompanhiaAerea == codigoCompanhiaAerea);
+                .FirstOrDefaultAsync(pa => pa.CpfPassageiro == cpfPassageiro && pa.CodIATA == codigoCompanhiaAerea);
 
             if (passagemAerea != null)
             {
