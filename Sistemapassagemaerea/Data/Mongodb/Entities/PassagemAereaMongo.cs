@@ -23,5 +23,10 @@ namespace Sistemapassagemaerea.Data.Mongodb.Entities
 
         [BsonElement("idCompanhiaAerea")]
         public int IdCompanhiaAerea { get; set; }
+        [BsonElement("passageiro")]
+        public PassageiroMongo Passageiro { get; set; } = default!;  // Carrega os dados do Passageiro
+
+        [BsonElement("companhiaAerea")]
+        public CompanhiaAereaMongo CompanhiaAerea { get; set; } = default!;
     }
 }

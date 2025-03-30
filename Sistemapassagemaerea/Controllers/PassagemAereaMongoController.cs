@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Sistemapassagemaerea.Application.Interfaces;
 using Sistemapassagemaerea.Data.Mongodb.Entities;
-using Sistemapassagemaerea.Domain.Interfaces;
 using System.Threading.Tasks;
 
 namespace Sistemapassagemaerea.Controllers
@@ -9,56 +9,77 @@ namespace Sistemapassagemaerea.Controllers
     [Route("api/[controller]")]
     public class PassagemAereaMongoController : ControllerBase
     {
-        private readonly IPassagemAereaMongoRepository _passagemAereaMongoRepository;
+        private readonly IPassagemAereaMongoService _passagemAereaService;
 
-        public PassagemAereaMongoController(IPassagemAereaMongoRepository passagemAereaMongoRepository)
+        // Construtor corrigido
+        public PassagemAereaMongoController(IPassagemAereaMongoService passagemAereaService)
         {
-            _passagemAereaMongoRepository = passagemAereaMongoRepository;
+            _passagemAereaService = passagemAereaService;
         }
 
+        // Método para criar uma passagem
+        [HttpPost]
+        public async Task<IActionResult> CriarPassagem([FromBody] PassagemAereaMongo passagemAerea)
+        {
+            try
+            {
+                await _passagemAereaService.AddPassagemAsync(passagemAerea);
+                return CreatedAtAction(nameof(CriarPassagem), new { id = passagemAerea.Id }, passagemAerea);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // Método para buscar todas as passagens
         [HttpGet]
-        public async Task<IActionResult> GetAllPassagensAereas()
+        public async Task<IActionResult> GetAllPassagens()
         {
-            var passagensAereas = await _passagemAereaMongoRepository.GetAllAsync();
-            return Ok(passagensAereas);
+            var passagens = await _passagemAereaService.GetAllPassagensAsync();
+            return Ok(passagens);
         }
 
+        // Método para buscar passagem por ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPassagemAereaById(int id)
+        public async Task<IActionResult> GetPassagemById(int id)
         {
-            var passagemAerea = await _passagemAereaMongoRepository.GetByIdAsync(id);
-            if (passagemAerea == null)
+            var passagem = await _passagemAereaService.GetPassagemByIdAsync(id);
+            if (passagem == null)
             {
                 return NotFound();
             }
-            return Ok(passagemAerea);
+            return Ok(passagem);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddPassagemAerea([FromBody] PassagemAereaMongo passagemAerea)
+        // Método para atualizar uma passagem
+        [HttpPut]
+        public async Task<IActionResult> UpdatePassagem([FromBody] PassagemAereaMongo passagemAerea)
         {
-            await _passagemAereaMongoRepository.AddAsync(passagemAerea);
-            return CreatedAtAction(nameof(GetPassagemAereaById), new { id = passagemAerea.Id }, passagemAerea);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePassagemAerea(int id, [FromBody] PassagemAereaMongo passagemAerea)
-        {
-            if (id != passagemAerea.Id)
+            try
             {
-                return BadRequest();
+                await _passagemAereaService.UpdatePassagemAsync(passagemAerea);
+                return NoContent();
             }
-
-            await _passagemAereaMongoRepository.UpdateAsync(passagemAerea);
-            return NoContent();
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        // Método para deletar uma passagem
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePassagemAerea(int id)
+        public async Task<IActionResult> DeletePassagem(int id)
         {
-            await _passagemAereaMongoRepository.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _passagemAereaService.DeletePassagemAsync(id);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
-
 }

@@ -2,5 +2,5 @@
 
 namespace Sistemapassagemaerea.Application.DTOs;
 
-public record PassageiroDto(string Cpf, string Nome, DateOnly DataNascimento,
+public record PassageiroDto(string Cpf, string Nome, DateTime DataNascimento,
                             IEnumerable<PassagemAereaDto>? PassagensAereas);

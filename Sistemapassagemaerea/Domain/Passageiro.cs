@@ -8,7 +8,7 @@ namespace Sistemapassagemaerea.Domain
     {
         public string Cpf { get; set; } = default!;
         public string Nome { get; set; } = default!;
-        public required DateOnly DataNascimento { get; set; }
+        public required DateTime DataNascimento { get; set; }
         
         public virtual ICollection<PassagemAerea>? PassagensAereas { get; set; }
 
