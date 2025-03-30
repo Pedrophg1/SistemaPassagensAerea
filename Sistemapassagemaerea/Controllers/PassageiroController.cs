@@ -40,14 +40,16 @@ namespace Sistemapassagemaerea.Controllers
             if (existingPassageiro == null)
                 return NotFound();
 
-            await _passageiroService.Update(passageiro);
+            
+            await _passageiroService.UpdatePassageiroAsync(id, passageiro);
             return NoContent();
         }
 
-        [HttpDelete("{cpf}")]
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePassageiro(int id)
         {
-            await _passageiroService.Delete(id);
+            await _passageiroService.DeletePassageiroAsync(id);
             return NoContent();
         }
     }

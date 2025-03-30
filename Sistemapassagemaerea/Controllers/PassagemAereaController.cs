@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sistemapassagemaerea.Application.Interfaces;
+using Sistemapassagemaerea.Application.DTOs;
 
 namespace Sistemapassagemaerea.Controllers
 {
@@ -14,6 +15,7 @@ namespace Sistemapassagemaerea.Controllers
             _passagemAereaService = passagemAereaService;
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> GetAllPassagens()
         {
@@ -22,18 +24,20 @@ namespace Sistemapassagemaerea.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPassagemAerea([FromBody] PassagemAerea passagemAerea)
+        public async Task<IActionResult> AddPassagemAerea([FromBody] PassagemAereaDto passagemAereaDto)
         {
-            await _passagemAereaService.AddPassagemAereaAsync(passagemAerea);
-            return CreatedAtAction(nameof(GetAllPassagens), passagemAerea);
+            var response = await _passagemAereaService.AddPassagemAereaAsync(passagemAereaDto);
+
+            
+            return CreatedAtAction(nameof(GetAllPassagens), new { id = response.Id }, passagemAereaDto);
         }
 
-        [HttpDelete("{cpfPassageiro}/{codigoCompanhiaAerea}")]
-        public async Task<IActionResult> DeletePassagemAerea(string cpfPassageiro, string codigoCompanhiaAerea)
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePassagemAerea(int id)
         {
-            await _passagemAereaService.DeletePassagemAereaAsync(cpfPassageiro, codigoCompanhiaAerea);
+            await _passagemAereaService.DeletePassagemAereaAsync(id);
             return NoContent();
         }
     }
-
 }

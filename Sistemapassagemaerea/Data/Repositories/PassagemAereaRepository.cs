@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sistemapassagemaerea.Data;
 using Sistemapassagemaerea.Domain;
 using Sistemapassagemaerea.Domain.Interfaces;
 
@@ -21,23 +22,39 @@ namespace Sistemapassagemaerea.Data.Repositories
                                  .ToListAsync();
         }
 
+        public async Task<PassagemAerea?> GetByIdAsync(int id)
+        {
+            return await _context.PassagensAereas
+                                 .Include(pa => pa.Passageiro)
+                                 .Include(pa => pa.CompanhiaAerea)
+                                 .FirstOrDefaultAsync(pa => pa.Id == id);
+        }
+
         public async Task AddAsync(PassagemAerea passagemAerea)
         {
             await _context.PassagensAereas.AddAsync(passagemAerea);
-            await _context.SaveChangesAsync();
+           
         }
-
-        public async Task Delete(int id)
+        public void Update(PassagemAerea passagemAerea)
         {
-            var passagemAerea = await _context.PassagensAereas
-                .FirstOrDefaultAsync(pa => pa.Id == id);
-
-            if (passagemAerea != null)
-            {
-                _context.PassagensAereas.Remove(passagemAerea);
-                await _context.SaveChangesAsync();
-            }
+            _context.PassagensAereas.Update(passagemAerea);
         }
-    }
 
+        //public async Task Delete(int id)
+        //{
+        //    var passagemAerea = await _context.PassagensAereas
+        //        .FirstOrDefaultAsync(pa => pa.Id == id);
+
+        //    if (passagemAerea != null)
+        //    {
+        //        _context.PassagensAereas.Remove(passagemAerea);
+               
+        //    }
+        //}
+        public void Delete(PassagemAerea passagemAerea)
+        {
+            _context.PassagensAereas.Remove(passagemAerea);
+        }
+
+    }
 }

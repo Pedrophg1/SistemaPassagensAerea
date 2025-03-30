@@ -34,6 +34,8 @@ namespace Sistemapassagemaerea.Data.Repositories
         {
             _context.Passageiros.Remove(passageiro);
         }
+       
+
     }
 
 }
