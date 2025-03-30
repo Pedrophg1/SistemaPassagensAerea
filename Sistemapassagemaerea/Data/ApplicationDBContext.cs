@@ -14,7 +14,7 @@ namespace Sistemapassagemaerea.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=mydb;Username=myuser;Password=mypassword");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=db_passagemaerea;Username=pedroadmin;Password=@dmin159");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
