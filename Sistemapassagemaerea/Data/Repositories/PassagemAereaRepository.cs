@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sistemapassagemaerea.Data;
 using Sistemapassagemaerea.Domain;
 using Sistemapassagemaerea.Domain.Interfaces;
 
@@ -33,7 +32,7 @@ namespace Sistemapassagemaerea.Data.Repositories
         public async Task AddAsync(PassagemAerea passagemAerea)
         {
             await _context.PassagensAereas.AddAsync(passagemAerea);
-           
+
         }
         public void Update(PassagemAerea passagemAerea)
         {
@@ -48,7 +47,7 @@ namespace Sistemapassagemaerea.Data.Repositories
         //    if (passagemAerea != null)
         //    {
         //        _context.PassagensAereas.Remove(passagemAerea);
-               
+
         //    }
         //}
         public void Delete(PassagemAerea passagemAerea)

@@ -7,7 +7,7 @@ namespace Sistemapassagemaerea.Data
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
         public DbSet<CompanhiaAerea> CompanhiasAereas { get; set; }
-      
+
         public DbSet<Passageiro> Passageiros { get; set; }
         public DbSet<PassagemAerea> PassagensAereas { get; set; }
         public object CompanhiaAereas { get; internal set; }

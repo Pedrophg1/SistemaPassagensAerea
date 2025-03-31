@@ -1,6 +1,5 @@
-﻿using MongoDB.Driver;
-using Microsoft.Extensions.Options;
-using Sistemapassagemaerea.Domain;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Sistemapassagemaerea.Data.Mongodb.Entities;
 
 namespace Sistemapassagemaerea.Data.Mongodb

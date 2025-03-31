@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sistemapassagemaerea.Application.Interfaces;
 using Sistemapassagemaerea.Application.DTOs;
+using Sistemapassagemaerea.Application.Interfaces;
 
 namespace Sistemapassagemaerea.Controllers
 {
@@ -15,24 +15,39 @@ namespace Sistemapassagemaerea.Controllers
             _passagemAereaService = passagemAereaService;
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllPassagens()
         {
             var passagens = await _passagemAereaService.GetAllPassagensAsync();
             return Ok(passagens);
         }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdatePassagemAerea(int id, [FromBody] CadastrarPassagemAereaDto passagemAereaDto)
+        {
+
+            var existingPassagemAerea = await _passagemAereaService.GetByIdAsync((id));
+            if (existingPassagemAerea == null)
+                return NotFound();
+
+
+            await _passagemAereaService.UpdatePassagemAereaAsync(id, passagemAereaDto);
+
+
+            return NoContent();
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> AddPassagemAerea([FromBody] PassagemAereaDto passagemAereaDto)
+        public async Task<IActionResult> AddPassagemAerea([FromBody] CadastrarPassagemAereaDto passagemAereaDto)
         {
             var response = await _passagemAereaService.AddPassagemAereaAsync(passagemAereaDto);
 
-            
+
             return CreatedAtAction(nameof(GetAllPassagens), new { id = response.Id }, passagemAereaDto);
         }
 
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePassagemAerea(int id)
         {

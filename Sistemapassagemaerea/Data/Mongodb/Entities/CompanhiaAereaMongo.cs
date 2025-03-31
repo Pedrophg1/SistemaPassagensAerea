@@ -1,13 +1,13 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
 
 namespace Sistemapassagemaerea.Data.Mongodb.Entities
 {
     public class CompanhiaAereaMongo
     {
-        [BsonId]  // Indica que a propriedade Id será usada como a chave primária no MongoDB.
-        public int Id { get; set; }
+
+        [BsonId]
+        public ObjectId Id { get; set; }
 
         [BsonElement("codIATA")]
         public string CodIATA { get; set; } = default!;
@@ -17,8 +17,9 @@ namespace Sistemapassagemaerea.Data.Mongodb.Entities
 
         [BsonElement("enderecoCompanhia")]
         public string EnderecoCompanhia { get; set; } = default!;
+        [BsonElement("passagensAereas")]
+        public List<PassagemAereaMongo> PassagensAereas { get; set; } = new List<PassagemAereaMongo>();
 
-       
-        //public virtual List<PassagemAereaMongo> PassagensAereas { get; set; } = new List<PassagemAereaMongo>();
+
     }
 }

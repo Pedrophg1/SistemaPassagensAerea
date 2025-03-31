@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Sistemapassagemaerea.Domain
+﻿namespace Sistemapassagemaerea.Domain
 {
     public class PassagemAerea : Entity
     {
@@ -12,7 +10,7 @@ namespace Sistemapassagemaerea.Domain
         public int IdCompanhiaAerea { get; set; }
 
         public virtual CompanhiaAerea? CompanhiaAerea { get; set; }
-        
+
         public virtual Passageiro? Passageiro { get; set; }
     }
 }

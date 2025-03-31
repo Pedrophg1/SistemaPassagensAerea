@@ -1,6 +1,4 @@
-﻿using Sistemapassagemaerea.Domain;
-
-namespace Sistemapassagemaerea.Domain.Interfaces
+﻿namespace Sistemapassagemaerea.Domain.Interfaces
 {
     public interface IPassagemAereaRepository
     {

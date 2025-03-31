@@ -13,7 +13,7 @@ namespace Sistemapassagemaerea.Application.Services
 
         public async Task<IEnumerable<CompanhiaAereaDto>> GetAllAsync()
         {
-            var companhias =  await _companhiaAereaRepository.GetAllAsync();
+            var companhias = await _companhiaAereaRepository.GetAllAsync();
 
             var companhiasDto = companhias.Select(x => new CompanhiaAereaDto(
                                 x.CodIATA,
@@ -26,7 +26,7 @@ namespace Sistemapassagemaerea.Application.Services
                                     p.IdPassageiro,
                                     p.Passageiro?.Nome ?? string.Empty,
                                     p.IdCompanhiaAerea
-                                )) ?? Enumerable.Empty<PassagemAereaDto>()) 
+                                )) ?? Enumerable.Empty<PassagemAereaDto>())
             );
 
             return companhiasDto;
@@ -39,7 +39,7 @@ namespace Sistemapassagemaerea.Application.Services
             if (companhia == null)
                 return null!;
 
-            var companhiaDto =  new CompanhiaAereaDto(
+            var companhiaDto = new CompanhiaAereaDto(
                 companhia.CodIATA,
                 companhia.NomeCompanhia,
                 companhia.EnderecoCompanhia,
@@ -75,7 +75,7 @@ namespace Sistemapassagemaerea.Application.Services
             var companhia = await _companhiaAereaRepository.GetByIdAsync(id);
 
             if (companhia == null)
-                return; 
+                return;
 
             companhia.CodIATA = companhiaDto.CodIATA;
             companhia.NomeCompanhia = companhiaDto.NomeCompanhia;

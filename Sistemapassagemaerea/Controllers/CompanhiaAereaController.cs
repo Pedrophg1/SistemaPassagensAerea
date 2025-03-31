@@ -27,7 +27,7 @@ namespace Sistemapassagemaerea.Controllers
         public async Task<IActionResult> GetCompanhia(int id)
         {
             var companhia = await _companhiaAereaService.GetByIdAsync(id);
-            
+
             if (companhia == null)
                 return NotFound();
 

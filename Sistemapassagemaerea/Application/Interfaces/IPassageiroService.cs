@@ -9,6 +9,6 @@ namespace Sistemapassagemaerea.Application.Interfaces
         Task<CadastroResponse> AddAsync(CadastrarPassageiroDto passageiro);
         Task UpdatePassageiroAsync(int id, CadastrarPassageiroDto passageiro);
         Task DeletePassageiroAsync(int id);
-       
+
     }
 }

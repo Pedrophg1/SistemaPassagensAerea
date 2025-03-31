@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Sistemapassagemaerea.Domain
+﻿namespace Sistemapassagemaerea.Domain
 {
     public class CompanhiaAerea : Entity
     {

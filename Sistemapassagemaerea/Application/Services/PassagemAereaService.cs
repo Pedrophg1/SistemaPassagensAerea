@@ -36,13 +36,13 @@ namespace Sistemapassagemaerea.Application.Services
 
         public async Task<PassagemAereaDto> GetByIdAsync(int id)
         {
-            // Recupera a passagem aérea por ID
+
             var passagemAerea = await _passagemAereaRepository.GetByIdAsync(id);
 
             if (passagemAerea == null)
                 return null!;
 
-            // Converte para DTO
+
             var passagemAereaDto = new PassagemAereaDto(
                 passagemAerea.CodigoPassagem,
                 passagemAerea.DataHoraCompra,
@@ -55,9 +55,9 @@ namespace Sistemapassagemaerea.Application.Services
             return passagemAereaDto;
         }
 
-        public async Task<CadastroResponse> AddPassagemAereaAsync(PassagemAereaDto passagemAereaDto)
+        public async Task<CadastroResponse> AddPassagemAereaAsync(CadastrarPassagemAereaDto passagemAereaDto)
         {
-           
+
             var passagemAerea = new PassagemAerea
             {
                 CodigoPassagem = passagemAereaDto.CodigoPassagem,
@@ -74,21 +74,21 @@ namespace Sistemapassagemaerea.Application.Services
             return new CadastroResponse(passagemAerea.Id);
         }
 
-        public async Task UpdatePassagemAereaAsync(int id, PassagemAereaDto passagemAereaDto)
+        public async Task UpdatePassagemAereaAsync(int id, CadastrarPassagemAereaDto passagemAereaDto)
         {
             var passagemAerea = await _passagemAereaRepository.GetByIdAsync(id);
 
             if (passagemAerea == null)
                 return;
 
-            // Atualiza os dados da passagem aérea
+
             passagemAerea.CodigoPassagem = passagemAereaDto.CodigoPassagem;
             passagemAerea.DataHoraCompra = passagemAereaDto.DataHoraCompra;
             passagemAerea.ValorPassagem = passagemAereaDto.ValorPassagem;
             passagemAerea.IdPassageiro = passagemAereaDto.IdPassageiro;
             passagemAerea.IdCompanhiaAerea = passagemAereaDto.IdCompanhiaAerea;
 
-            // Atualiza o repositório
+
             _passagemAereaRepository.Update(passagemAerea);
             await _unityOfWork.SaveChangesAsync();
         }

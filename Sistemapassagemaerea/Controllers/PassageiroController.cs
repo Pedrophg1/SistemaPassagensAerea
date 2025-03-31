@@ -40,7 +40,7 @@ namespace Sistemapassagemaerea.Controllers
             if (existingPassageiro == null)
                 return NotFound();
 
-            
+
             await _passageiroService.UpdatePassageiroAsync(id, passageiro);
             return NoContent();
         }
