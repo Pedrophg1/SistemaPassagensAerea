@@ -1,80 +1,44 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Sistemapassagemaerea.Data.Mongodb.Entities;
+using Sistemapassagemaerea.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Sistemapassagemaerea.Data.Mongodb
+namespace Sistemapassagemaerea.Data.Mongodb.Repositories
 {
-    public class PassagemMongoRepository : IPassagemMongoRepository
+    public class PassagemAereaMongoRepository : IPassagemAereaMongoRepository
     {
-        private readonly IMongoCollection<PassagemAereaMongo> _passagemCollection;
-        private readonly IMongoCollection<PassageiroMongo> _passageiroCollection;
-        private readonly IMongoCollection<CompanhiaAereaMongo> _companhiaAereaCollection;
+        private readonly IMongoCollection<PassagemAereaMongo> _passagensAereas;
 
-        public PassagemMongoRepository(IMongoDatabase database)
+        public PassagemAereaMongoRepository(MongoDbService mongoDbService)
         {
-            _passagemCollection = database.GetCollection<PassagemAereaMongo>("PassagemAereas");
-            _passageiroCollection = database.GetCollection<PassageiroMongo>("Passageiros");
-            _companhiaAereaCollection = database.GetCollection<CompanhiaAereaMongo>("CompanhiasAereas");
+            _passagensAereas = mongoDbService.PassagensAereas;
         }
 
-
-        public async Task<PassagemAereaMongo> ObterPassagemComDetalhesAsync(ObjectId passagemId)
+        public async Task<IEnumerable<PassagemAereaMongo>> GetAllAsync()
         {
-            var passagem = await _passagemCollection.Find(p => p.Id == passagemId).FirstOrDefaultAsync();
-            if (passagem == null) return null;
-
-
-            var passageiro = await _passageiroCollection.Find(p => p.Id == passagem.IdPassageiro).FirstOrDefaultAsync();
-            var companhiaAerea = await _companhiaAereaCollection.Find(c => c.Id == passagem.IdCompanhiaAerea).FirstOrDefaultAsync();
-
-
-            if (passageiro != null)
-                passagem.Passageiro = passageiro;
-
-            if (companhiaAerea != null)
-                passagem.CompanhiaAerea = companhiaAerea;
-
-            return passagem;
+            return await _passagensAereas.Find(passagem => true).ToListAsync();
         }
 
-
-
-
-        public async Task<IEnumerable<PassagemAereaMongo>> ObterTodasPassagensAsync()
+        public async Task<PassagemAereaMongo?> GetByIdAsync(int id)
         {
-            var passagens = await _passagemCollection.Find(FilterDefinition<PassagemAereaMongo>.Empty).ToListAsync();
-            return passagens;
+            return await _passagensAereas.Find(passagem => passagem.Id == id).FirstOrDefaultAsync();
         }
 
-
-        public async Task<PassagemAereaMongo> CriarPassagemAsync(PassagemAereaMongo passagem)
+        public async Task AddAsync(PassagemAereaMongo passagemAerea)
         {
-
-            await _passagemCollection.InsertOneAsync(passagem);
-            return passagem;
+            await _passagensAereas.InsertOneAsync(passagemAerea);
         }
 
-
-        public async Task<PassagemAereaMongo> AtualizarPassagemAsync(ObjectId passagemId, PassagemAereaMongo passagemAtualizada)
+        public async Task UpdateAsync(PassagemAereaMongo passagemAerea)
         {
-            var resultado = await _passagemCollection.ReplaceOneAsync(
-                p => p.Id == passagemId,
-                passagemAtualizada
-            );
-
-            if (resultado.MatchedCount == 0)
-            {
-                return null;
-            }
-
-            return passagemAtualizada;
+            await _passagensAereas.ReplaceOneAsync(p => p.Id == passagemAerea.Id, passagemAerea);
         }
 
-        // Deletar uma passagem
-        public async Task<bool> DeletarPassagemAsync(ObjectId passagemId)
+        public async Task DeleteAsync(int id)
         {
-            var resultado = await _passagemCollection.DeleteOneAsync(p => p.Id == passagemId);
-            return resultado.DeletedCount > 0;
+            await _passagensAereas.DeleteOneAsync(p => p.Id == id);
         }
     }
+
 }

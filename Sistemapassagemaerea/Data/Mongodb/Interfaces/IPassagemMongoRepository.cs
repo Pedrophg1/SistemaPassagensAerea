@@ -1,23 +1,13 @@
-﻿using MongoDB.Bson;
-using Sistemapassagemaerea.Data.Mongodb.Entities;
+﻿using Sistemapassagemaerea.Data.Mongodb.Entities;
 
-namespace Sistemapassagemaerea.Data.Mongodb
+namespace Sistemapassagemaerea.Domain.Interfaces
 {
-    public interface IPassagemMongoRepository
+    public interface IPassagemAereaMongoRepository
     {
-        // Método para obter uma passagem específica com todos os detalhes relacionados
-        Task<PassagemAereaMongo> ObterPassagemComDetalhesAsync(ObjectId passagemId);
-
-        // Método para obter todas as passagens
-        Task<IEnumerable<PassagemAereaMongo>> ObterTodasPassagensAsync();
-
-        // Método para criar uma nova passagem
-        Task<PassagemAereaMongo> CriarPassagemAsync(PassagemAereaMongo passagem);
-
-        // Método para atualizar uma passagem existente
-        Task<PassagemAereaMongo> AtualizarPassagemAsync(ObjectId passagemId, PassagemAereaMongo passagemAtualizada);
-
-        // Método para deletar uma passagem
-        Task<bool> DeletarPassagemAsync(ObjectId passagemId);
+        Task<IEnumerable<PassagemAereaMongo>> GetAllAsync();
+        Task<PassagemAereaMongo?> GetByIdAsync(int id);
+        Task AddAsync(PassagemAereaMongo passagemAerea);
+        Task UpdateAsync(PassagemAereaMongo passagemAerea);
+        Task DeleteAsync(int id);
     }
 }
