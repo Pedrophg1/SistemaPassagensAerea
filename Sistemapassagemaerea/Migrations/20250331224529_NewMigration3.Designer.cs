@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sistemapassagemaerea.Data;
@@ -11,9 +12,11 @@ using Sistemapassagemaerea.Data;
 namespace Sistemapassagemaerea.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250331224529_NewMigration3")]
+    partial class NewMigration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,25 +48,6 @@ namespace Sistemapassagemaerea.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CompanhiasAereas");
-                });
-
-            modelBuilder.Entity("Sistemapassagemaerea.Domain.Comprovante", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NomePassageiro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NumeroPassagem")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comprovantes");
                 });
 
             modelBuilder.Entity("Sistemapassagemaerea.Domain.Passageiro", b =>

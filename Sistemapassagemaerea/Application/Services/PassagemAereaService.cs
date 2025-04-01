@@ -1,5 +1,6 @@
 ﻿using Sistemapassagemaerea.Application.DTOs;
 using Sistemapassagemaerea.Application.Interfaces;
+using Sistemapassagemaerea.Data;
 using Sistemapassagemaerea.Domain;
 using Sistemapassagemaerea.Domain.Interfaces;
 

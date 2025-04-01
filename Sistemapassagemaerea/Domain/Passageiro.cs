@@ -4,7 +4,7 @@
     {
         public string Cpf { get; set; } = default!;
         public string Nome { get; set; } = default!;
-        public required DateTime DataNascimento { get; set; }
+        public DateTime DataNascimento { get; set; }
 
         public virtual ICollection<PassagemAerea>? PassagensAereas { get; set; }
 
