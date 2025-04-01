@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sistemapassagemaerea.Data;
@@ -11,9 +12,11 @@ using Sistemapassagemaerea.Data;
 namespace Sistemapassagemaerea.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250401002509_TransactionMigrationFinal3")]
+    partial class TransactionMigrationFinal3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,22 +52,19 @@ namespace Sistemapassagemaerea.Migrations
 
             modelBuilder.Entity("Sistemapassagemaerea.Domain.Comprovante", b =>
                 {
-                    b.Property<string>("CodigoPassagem")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                    b.Property<string>("CpfPassageiro")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DataHoraCompra")
-                        .HasColumnType("timestamp with time zone");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("NomePassageiro")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("ValorPassagem")
-                        .HasColumnType("numeric");
+                    b.Property<string>("NumeroPassagem")
+                        .HasColumnType("text");
 
-                    b.HasKey("CodigoPassagem");
+                    b.HasKey("Id");
 
                     b.ToTable("Comprovantes");
                 });

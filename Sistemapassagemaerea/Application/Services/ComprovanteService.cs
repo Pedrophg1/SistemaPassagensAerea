@@ -1,5 +1,6 @@
 ﻿using Sistemapassagemaerea.Data;
 using Sistemapassagemaerea.Domain;
+using Microsoft.EntityFrameworkCore;
 
 public class ComprovanteService
 {
@@ -16,22 +17,30 @@ public class ComprovanteService
         {
             try
             {
-                // Adiciona o passageiro ao contexto
                 _context.Passageiros.Add(passageiro);
                 await _context.SaveChangesAsync();
 
-                // Associa o passageiro à passagem aérea
-                passagem.IdPassageiro = passageiro.Id;
+                
                 _context.PassagensAereas.Add(passagem);
                 await _context.SaveChangesAsync();
 
-                // Confirma a transação
+                var comprovante = new Comprovante
+                {
+                    CodigoPassagem = passagem.CodigoPassagem,
+                    DataHoraCompra = passagem.DataHoraCompra,
+                    ValorPassagem = passagem.ValorPassagem,
+                    CpfPassageiro = passageiro.Cpf
+                };
+
+                _context.Comprovantes.Add(comprovante);
+                await _context.SaveChangesAsync();
+
+
                 await transaction.CommitAsync();
                 return true;
             }
             catch (Exception)
             {
-                // Reverte a transação em caso de erro
                 await transaction.RollbackAsync();
                 return false;
             }

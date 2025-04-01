@@ -2,6 +2,6 @@
 {
 
 
-    public record ComprovanteDto(string nomePassageiro, string cpfPassageiro, string CodigoPassagem, DateTime DataHoraCompra, decimal ValorPassagem);
+    public record ComprovanteDto(string NomePassageiro, string CpfPassageiro, string CodigoPassagem, DateTime DataHoraCompra, decimal ValorPassagem);
 
 }

@@ -14,19 +14,19 @@ public class ComprovanteController : ControllerBase
     }
 
     [HttpPost("gerar")]
-    public async Task<IActionResult> GerarComprovante([FromBody] ComprovanteDto comprovanteDto)
+    public async Task<IActionResult> GerarComprovante([FromBody] Comprovante comprovante)
     {
         var passageiro = new Passageiro
         {
-            Nome = comprovanteDto.nomePassageiro,
-            Cpf = comprovanteDto.cpfPassageiro
+            Nome = comprovante.NomePassageiro,
+            Cpf = comprovante.CpfPassageiro,
         };
 
         var passagem = new PassagemAerea
         {
-            CodigoPassagem = comprovanteDto.CodigoPassagem,
-            DataHoraCompra = comprovanteDto.DataHoraCompra,
-            ValorPassagem = comprovanteDto.ValorPassagem
+            CodigoPassagem = comprovante.CodigoPassagem,
+            DataHoraCompra = comprovante.DataHoraCompra,
+            ValorPassagem = comprovante.ValorPassagem
         };
 
         var resultado = await _comprovanteService.GerarComprovanteAsync(passageiro, passagem);

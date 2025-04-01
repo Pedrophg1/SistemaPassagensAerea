@@ -13,13 +13,11 @@ namespace Sistemapassagemaerea.Data
         public DbSet<Comprovante> Comprovantes { get; set; }
         public object CompanhiaAereas { get; internal set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=1303");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+
         {
+            modelBuilder.Entity<Comprovante>()
+        .HasKey(c => c.CodigoPassagem);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
