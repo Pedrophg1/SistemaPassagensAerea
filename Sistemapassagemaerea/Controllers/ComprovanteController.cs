@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sistemapassagemaerea.Application.DTOs;
+using Sistemapassagemaerea.Application.Services;
 using Sistemapassagemaerea.Domain;
+using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,26 +16,24 @@ public class ComprovanteController : ControllerBase
     }
 
     [HttpPost("gerar")]
-    public async Task<IActionResult> GerarComprovante([FromBody] Comprovante comprovante)
+    public async Task<IActionResult> GerarComprovante([FromBody] ComprovanteDto comprovanteDto)
     {
-        var passageiro = new Passageiro
+        if (comprovanteDto == null)
+            return BadRequest("Dados inválidos.");
+
+        var comprovante = new Comprovante
         {
-            Nome = comprovante.NomePassageiro,
-            Cpf = comprovante.CpfPassageiro,
+            NomePassageiro = comprovanteDto.NomePassageiro,
+            CpfPassageiro = comprovanteDto.CpfPassageiro,
+            CodigoPassagem = comprovanteDto.CodigoPassagem,
+            DataHoraCompra = comprovanteDto.DataHoraCompra,
+            ValorPassagem = comprovanteDto.ValorPassagem
         };
 
-        var passagem = new PassagemAerea
-        {
-            CodigoPassagem = comprovante.CodigoPassagem,
-            DataHoraCompra = comprovante.DataHoraCompra,
-            ValorPassagem = comprovante.ValorPassagem
-        };
-
-        var resultado = await _comprovanteService.GerarComprovanteAsync(passageiro, passagem);
+        var resultado = await _comprovanteService.GerarComprovanteAsync(comprovante);
         if (resultado)
-        {
             return Ok("Comprovante gerado com sucesso!");
-        }
+
         return BadRequest("Erro ao gerar comprovante.");
     }
 }

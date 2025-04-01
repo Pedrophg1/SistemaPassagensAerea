@@ -1,7 +1,8 @@
-﻿using System.Net.Sockets;
-using Sistemapassagemaerea.Domain;
+﻿using Sistemapassagemaerea.Domain;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
-namespace Sistemapassagemaerea.Data.Repositories
+namespace Sistemapassagemaerea.Data
 {
     public class ComprovanteRepository
     {
@@ -12,5 +13,10 @@ namespace Sistemapassagemaerea.Data.Repositories
             _context = context;
         }
 
+        public async Task AddComprovanteAsync(Comprovante comprovante)
+        {
+            await _context.Comprovantes.AddAsync(comprovante);
+            await _context.SaveChangesAsync();
+        }
     }
 }

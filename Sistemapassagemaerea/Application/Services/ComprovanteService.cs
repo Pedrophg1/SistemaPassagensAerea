@@ -1,45 +1,32 @@
-﻿using Sistemapassagemaerea.Data;
-using Sistemapassagemaerea.Domain;
+﻿using Sistemapassagemaerea.Domain;
+using Sistemapassagemaerea.Data;
+using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-public class ComprovanteService
+namespace Sistemapassagemaerea.Application.Services
 {
-    private readonly ApplicationDbContext _context;
-
-    public ComprovanteService(ApplicationDbContext context)
+    public class ComprovanteService
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
+        private readonly ComprovanteRepository _repository;
 
-    public async Task<bool> GerarComprovanteAsync(Passageiro passageiro, PassagemAerea passagem)
-    {
-        using (var transaction = await _context.Database.BeginTransactionAsync())
+        public ComprovanteService(ApplicationDbContext context, ComprovanteRepository repository)
         {
+            _context = context;
+            _repository = repository;
+        }
+
+        public async Task<bool> GerarComprovanteAsync(Comprovante comprovante)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                _context.Passageiros.Add(passageiro);
-                await _context.SaveChangesAsync();
-
-                
-                _context.PassagensAereas.Add(passagem);
-                await _context.SaveChangesAsync();
-
-                var comprovante = new Comprovante
-                {
-                    CodigoPassagem = passagem.CodigoPassagem,
-                    DataHoraCompra = passagem.DataHoraCompra,
-                    ValorPassagem = passagem.ValorPassagem,
-                    CpfPassageiro = passageiro.Cpf
-                };
-
-                _context.Comprovantes.Add(comprovante);
-                await _context.SaveChangesAsync();
-
-
+                await _repository.AddComprovanteAsync(comprovante);
                 await transaction.CommitAsync();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 await transaction.RollbackAsync();
                 return false;
