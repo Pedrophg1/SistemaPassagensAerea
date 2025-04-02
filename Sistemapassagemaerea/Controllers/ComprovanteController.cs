@@ -30,10 +30,25 @@ public class ComprovanteController : ControllerBase
             ValorPassagem = comprovanteDto.ValorPassagem
         };
 
-        var resultado = await _comprovanteService.GerarComprovanteAsync(comprovante);
-        if (resultado)
-            return Ok("Comprovante gerado com sucesso!");
+        try
+        {
+            var resultado = await _comprovanteService.GerarComprovanteAsync(comprovante);
+            if (resultado)
+                return Ok("Comprovante gerado com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Contains("Esta passagem já foi utilizada"))
+                return Conflict(ex.Message);  // Retorna 409 Conflict se a passagem já foi usada
+
+            return BadRequest("Erro ao gerar comprovante.");
+        }
 
         return BadRequest("Erro ao gerar comprovante.");
     }
+    //var resultado = await _comprovanteService.GerarComprovanteAsync(comprovante);
+    //if (resultado)
+    //    return Ok("Comprovante gerado com sucesso!");
+
+    //return BadRequest("Erro ao gerar comprovante.");
 }

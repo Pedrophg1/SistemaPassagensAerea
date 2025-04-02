@@ -22,6 +22,10 @@ namespace Sistemapassagemaerea.Application.Services
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                bool passagemJaUtilizada = await _context.Comprovantes.AnyAsync(c => c.CodigoPassagem == comprovante.CodigoPassagem);
+                if (passagemJaUtilizada)
+                    throw new Exception("Esta passagem já foi utilizada para gerar um comprovante.");
+
                 await _repository.AddComprovanteAsync(comprovante);
                 await transaction.CommitAsync();
                 return true;
@@ -29,7 +33,7 @@ namespace Sistemapassagemaerea.Application.Services
             catch
             {
                 await transaction.RollbackAsync();
-                return false;
+                throw;
             }
         }
     }
